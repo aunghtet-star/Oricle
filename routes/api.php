@@ -22,4 +22,13 @@ Route::namespace('Api')->group(function(){
 Route::middleware('auth:api')->namespace('Api')->group(function(){
     Route::post('/logout','AuthController@logout');
     Route::get('/profile','PageController@profile');
+    Route::get('/transactions','PageController@transaction');
+    Route::get('/transactions/{id}','PageController@transactionDetail');
+    Route::get('/notifications','PageController@notification');
+    Route::get('/notifications/{id}','PageController@notificationDetail');
+    Route::get('/toaccountVerify','PageController@toaccountVerify');
+    Route::post('/transfer/confirm','PageController@transferConfirm');
+    Route::post('/transfer/complete','PageController@transferComplete');
+    Route::post('/scan_and_pay_confirm','PageController@scanAndPayConfirm');
+    Route::post('/scan_and_pay_complete','PageController@scanAndPayComplete');
 });

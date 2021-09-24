@@ -11,7 +11,7 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text type-padding">Date</label>
                             </div>
-                            <input type="text" class="form-control date" value="{{request()->date ?? date('Y-m-d')}}">
+                            <input type="text" class="form-control date" value="{{request()->date  }}" placeholder="All">
                         </div>
                     </div>
                     <div class="col-6">
@@ -83,13 +83,22 @@
             });
             $('.date').daterangepicker({
                 "singleDatePicker": true,
-                "autoApply": true,
+                "autoApply": false,
+                "autoUpdateInput" :false,
                 "locale": {
                     "format": "YYYY/MM/DD",
             },
             });
             
             $('.date').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD'));
+                var date = $('.date').val();
+                var type = $('.type').val();
+                history.pushState(null, '' , `?date=${date}&type=${type}`);
+                window.location.reload();
+            });
+            $('.date').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
                 var date = $('.date').val();
                 var type = $('.type').val();
                 history.pushState(null, '' , `?date=${date}&type=${type}`);

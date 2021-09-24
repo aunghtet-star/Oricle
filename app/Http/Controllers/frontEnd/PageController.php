@@ -46,8 +46,12 @@ class PageController extends Controller
             $sourceable_id = $user->id;
             $sourceable_type = User::class;
             $web_link = url('profile');
+            $deep_link = [
+                'target' => 'profile',
+                'parameter' => null
+            ];
 
-        Notification::send([$user], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link));
+        Notification::send([$user], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
             return redirect()->route('profile')->with('update','successfully updated');
             
         
@@ -151,16 +155,26 @@ class PageController extends Controller
             $sourceable_id = $to_account->id;
             $sourceable_type = Transfer::class;
             $web_link = url('/transactionDetail/'.  $from_account_transaction->trx_id);
-
-        Notification::send([$from_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link));
+            $deep_link = [
+                'target' => 'transaction_detail',
+                'parameter' => [
+                    'trx_id' => $from_account_transaction->trx_id
+                ]
+            ];
+        Notification::send([$from_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
 
             $title = 'Successfully Received';
             $message = 'You have receive from '.$from_account->name . $from_account->phone .'from receive successfully';
             $sourceable_id = $from_account->id;
             $sourceable_type = Transfer::class;
             $web_link = url('/transactionDetail/'.  $to_account_transaction->trx_id);
-
-        Notification::send([$to_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link));
+            $deep_link = [
+                'target' => 'transaction_detail',
+                'parameter' => [
+                    'trx_id' => $to_account_transaction->trx_id
+                ]
+            ];
+        Notification::send([$to_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link,$deep_link));
             
             DB::commit();
             
@@ -341,8 +355,13 @@ class PageController extends Controller
             $sourceable_id = $to_account->id;
             $sourceable_type = Transfer::class;
             $web_link = url('/transactionDetail/'.  $from_account_transaction->trx_id);
-
-        Notification::send([$from_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link));
+            $deep_link = [
+                'target' => 'transaction_detail',
+                'parameter' => [
+                    'trx_id' => $from_account_transaction->trx_id
+                ]
+            ];
+        Notification::send([$from_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
 
             $title = 'Successfully Received';
             $message = 'You have receive from '.$from_account->name . $from_account->phone .'from receive successfully';
@@ -350,7 +369,7 @@ class PageController extends Controller
             $sourceable_type = Transfer::class;
             $web_link = url('/transactionDetail/'.  $to_account_transaction->trx_id);
 
-        Notification::send([$to_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link));
+        Notification::send([$to_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
             DB::commit();
             
             return redirect('/transactionDetail/'.$from_account_transaction->trx_id)->with('transfer_success','Done');
