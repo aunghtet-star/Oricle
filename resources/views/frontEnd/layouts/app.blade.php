@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-8 text-center">
                             <a href="">
-                                <h3>KTU IT Pay</h3>
+                                <h3>@yield('title')</h3>
                             </a>
                         </div>
                         <div class="col-2 text-center">

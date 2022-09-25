@@ -1,5 +1,5 @@
 @extends('frontEnd.layouts.app')
-@section('title','OriclePay')
+@section('title','KTU IT Pay')
 @section('extra_css')
     <style>
         body {
@@ -72,6 +72,6 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 @endsection
