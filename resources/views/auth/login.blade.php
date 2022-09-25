@@ -2,10 +2,13 @@
 @section('title', 'login')
 @section('content')
     <div class="container">
-        <div class="row justify-content-center align-items-center" style="height:100vh;">
+        <div class="row justify-content-center align-items-center" style="height:80vh;">
             <div class="col-md-6">
                 <div class="card auth-form">
                     <div class="card-body">
+                        <div class="text-center mb-0">
+                            <img src="{{asset('img/logo.jpg')}}" style="width: 100px" alt="">
+                        </div>
                         <h3 class="text-center">Login</h3>
                         <p class="text-center text-muted">Fill the form to login</p>
                         <form method="POST" action="{{ route('login') }}">
@@ -32,7 +35,7 @@
                             <button type="submit" class="btn btn-theme btn-block my-4">Login</button>
                             <div class="d-flex justify-content-between">
                                 <a href="{{ route('register') }}">Register Now</a>
-                                <a href="{{ route('password.request') }}">
+                                <a href="">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             </div>

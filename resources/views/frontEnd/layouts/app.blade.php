@@ -35,19 +35,19 @@
 
 <body>
     <div id="app">
-        
+
         <div class="header-menu">
             <div class="d-flex justify-content-center">
                 <div class="col-md-8 ">
                     <div class="d-flex">
                         <div class="col-2 text-center">
                             @if (!request()->is('/'))
-                                <a href="#"><i class="fas fa-angle-left back"></i></a>    
+                                <a href="#"><i class="fas fa-angle-left back"></i></a>
                             @endif
                         </div>
                         <div class="col-8 text-center">
                             <a href="">
-                                <h3>@yield('title')</h3>
+                                <h3>KTU IT Pay</h3>
                             </a>
                         </div>
                         <div class="col-2 text-center">
@@ -120,7 +120,7 @@
     {{-- Date range picker --}}
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    
+
     <script>
         $(document).ready(function() {
             let token = document.head.querySelector('meta[name="csrf-token"]')
@@ -132,7 +132,7 @@
                         'Accept':'application/json',
                     }
                 });
-            }   
+            }
         });
         const Toast = Swal.mixin({
             toast: true,
@@ -145,7 +145,7 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         })
-        
+
         @if (session('update'))
             Toast.fire({
             icon: 'success',
