@@ -9,7 +9,7 @@ class UUIDGenerator
 {
     public static function AccountNumber()
     {
-        $number = mt_rand(1000000000000000, 9999999999999999);
+        $number = mt_rand(10000000, 99999999);
         if (Wallet::where('account_numbers', $number)->exists()) {
             self::AccountNumber();
         }
@@ -17,7 +17,7 @@ class UUIDGenerator
     }
     public static function RefNumber()
     {
-        $number = mt_rand(1000000000000000, 9999999999999999);
+        $number = mt_rand(10000000, 99999999);
         if (Transaction::where('ref_no', $number)->exists()) {
             self::RefNumber();
         }
@@ -25,7 +25,7 @@ class UUIDGenerator
     }
     public static function TrxId()
     {
-        $number = mt_rand(1000000000000000, 9999999999999999);
+        $number = mt_rand(10000000, 99999999);
         if (Transaction::where('trx_id', $number)->exists()) {
             self::TrxId();
         }
