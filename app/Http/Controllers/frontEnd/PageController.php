@@ -21,7 +21,7 @@ class PageController extends Controller
     public function home()
     {
         $user = Auth::guard('web')->user();
-        
+
         return view('frontEnd.home',compact('user'));
     }
     public function profile(){
@@ -32,7 +32,7 @@ class PageController extends Controller
         return view('frontEnd.updatePassword');
     }
     public function updatePasswordStore(updatePassword $request){
-        
+
         $old_password = $request->old_password;
         $new_password = $request->new_password;
         $user = Auth::guard('web')->user();
@@ -40,7 +40,7 @@ class PageController extends Controller
         if (Hash::check($old_password, $user->password)) {
             $user->password = Hash::make($new_password);
             $user->update();
-            
+
             $title = 'Updated successfully';
             $message = 'Your account password is successfully changed';
             $sourceable_id = $user->id;
@@ -53,8 +53,8 @@ class PageController extends Controller
 
         Notification::send([$user], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
             return redirect()->route('profile')->with('update','successfully updated');
-            
-        
+
+
         }
         return back()->withErrors(['old_password'=>'Your old password is not correct'])->withInput();
     }
@@ -76,7 +76,7 @@ class PageController extends Controller
         $amount = $request->amount;
         $description = $request->description;
         $from_account = $user;
-        
+
         if($request->amount < 1){
             return back()->withErrors(['amount'=>'This amount must be larger than 1 MMK'])->withInput();
         }
@@ -93,8 +93,8 @@ class PageController extends Controller
     }
 
     public function transfercomplete(Transfer $request){
-       
-       
+
+
         $to_account = User::where('phone',$request->phone)->first();
         $user = Auth::guard('web')->user();
 
@@ -102,7 +102,7 @@ class PageController extends Controller
         $amount = $request->amount;
         $description = $request->description;
         $from_account = $user;
-        
+
         if($request->amount < 1){
             return back()->withErrors(['amount'=>'This amount must be larger than 1 MMK'])->withInput();
         }
@@ -118,13 +118,13 @@ class PageController extends Controller
         if(!$from_account->wallet || !$to_account->wallet){
             return back()->withErrors(['fail'=>'something wrong'])->withInput();
         }
-        
+
         DB::beginTransaction();
         try{
             $from_account_wallet = $from_account->wallet;
             $from_account_wallet->decrement('amount',$amount);
             $from_account_wallet->update();
-    
+
             $to_account_wallet = $to_account->wallet;
             $to_account_wallet->increment('amount',$amount);
             $to_account_wallet->update();
@@ -138,7 +138,7 @@ class PageController extends Controller
             $from_account_transaction->amount = $amount;
             $from_account_transaction->source_id = $to_account->id;
             $from_account_transaction->description = $description ;
-            $from_account_transaction->save(); 
+            $from_account_transaction->save();
 
             $to_account_transaction = new Transaction();
             $to_account_transaction->ref_no = $ref_no;
@@ -148,7 +148,7 @@ class PageController extends Controller
             $to_account_transaction->amount = $amount ;
             $to_account_transaction->source_id = $from_account->id ;
             $to_account_transaction->description = $description;
-            $to_account_transaction->save(); 
+            $to_account_transaction->save();
 
             $title = 'Successfully Transferred';
             $message = 'You have sent '.$to_account->name .  $to_account->phone .'to transfrred successfully';
@@ -175,10 +175,10 @@ class PageController extends Controller
                 ]
             ];
         Notification::send([$to_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link,$deep_link));
-            
+
             DB::commit();
-            
-            
+
+
             return redirect('/transactionDetail/'.$from_account_transaction->trx_id)->with('transfer_success','Done');
 
         }catch(Exception $e){
@@ -186,7 +186,7 @@ class PageController extends Controller
             DB::rollBack();
             return redirect('/')->withErrors(['fail','Something wrong'.$e->getMessage()])->withInput();
         }
-        
+
     }
 
     public function transaction(Request $request){
@@ -205,6 +205,7 @@ class PageController extends Controller
     public function transactionDetail($trx_id){
         $user = Auth::guard('web')->user();
         $transaction = Transaction::with('user','source')->where('user_id',$user->id)->where('trx_id',$trx_id)->first();
+
         return view('frontEnd.transactionDetail',compact('transaction'));
     }
     public function password_check(Request $request){
@@ -243,12 +244,12 @@ class PageController extends Controller
             'message'=>'Invalid data'
         ]);
     }
-   
+
     public function receive_qr(){
         $authUser = Auth::guard('web')->user();
         return view('frontEnd.receive_qr',compact('authUser'));
     }
-    
+
     public function scanQr(){
         return view('frontEnd.scanQr');
     }
@@ -261,9 +262,9 @@ class PageController extends Controller
         }
         return view('frontEnd.Scan',compact('to_account','from_account'));
     }
-    
+
     public function scan_and_pay_confirm(Request $request){
-        
+
         $request->validate([
             'amount'=>'required'
         ]);
@@ -275,7 +276,7 @@ class PageController extends Controller
         $amount = $request->amount;
         $description = $request->description;
         $from_account = $user;
-        
+
         if($request->amount < 1){
             return back()->withErrors(['amount'=>'This amount must be larger than 1 MMK'])->withInput();
         }
@@ -293,7 +294,7 @@ class PageController extends Controller
 
     public function scan_and_pay_complete(Transfer $request){
         $to_account = User::where('phone',$request->phone)->first();
-        
+
         $user = Auth::guard('web')->user();
         $to_account = User::where('phone',$request->phone)->first();
         $user = Auth::guard('web')->user();
@@ -302,7 +303,7 @@ class PageController extends Controller
         $amount = $request->amount;
         $description = $request->description;
         $from_account = $user;
-        
+
         if($request->amount < 1){
             return back()->withErrors(['amount'=>'This amount must be larger than 1 MMK'])->withInput();
         }
@@ -318,13 +319,13 @@ class PageController extends Controller
         if(!$from_account->wallet || !$to_account->wallet){
             return back()->withErrors(['fail'=>'something wrong'])->withInput();
         }
-        
+
         DB::beginTransaction();
         try{
             $from_account_wallet = $from_account->wallet;
             $from_account_wallet->decrement('amount',$amount);
             $from_account_wallet->update();
-    
+
             $to_account_wallet = $to_account->wallet;
             $to_account_wallet->increment('amount',$amount);
             $to_account_wallet->update();
@@ -338,7 +339,7 @@ class PageController extends Controller
             $from_account_transaction->amount = $amount;
             $from_account_transaction->source_id = $to_account->id;
             $from_account_transaction->description = $description ;
-            $from_account_transaction->save(); 
+            $from_account_transaction->save();
 
             $to_account_transaction = new Transaction();
             $to_account_transaction->ref_no = $ref_no;
@@ -348,7 +349,7 @@ class PageController extends Controller
             $to_account_transaction->amount = $amount ;
             $to_account_transaction->source_id = $from_account->id ;
             $to_account_transaction->description = $description;
-            $to_account_transaction->save(); 
+            $to_account_transaction->save();
 
             $title = 'Successfully Transferred';
             $message = 'You have sent '.$to_account->name .  $to_account->phone .'to transfrred successfully';
@@ -371,7 +372,7 @@ class PageController extends Controller
 
         Notification::send([$to_account], new InvoicePaid($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
             DB::commit();
-            
+
             return redirect('/transactionDetail/'.$from_account_transaction->trx_id)->with('transfer_success','Done');
 
         }catch(Exception $e){
