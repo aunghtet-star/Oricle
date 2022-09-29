@@ -15,8 +15,8 @@
             </div>
         </div>
 
-        <a href="{{route('admin.wallet.add')}}" class="btn btn-success btn-sm"><i class="fas fa-plus-circle"></i> Add money</a>
-        <a href="{{route('admin.wallet.reduce')}}" class="btn btn-danger btn-sm"><i class="fas fa-minus-circle"></i> Reduce money</a>
+        <a href="{{route('admin.wallet.add')}}" class="btn btn-success btn-sm"><i class="fas fa-plus-circle"></i> Cash In</a>
+        <a href="{{route('admin.wallet.reduce')}}" class="btn btn-danger btn-sm"><i class="fas fa-minus-circle"></i> Cash Out</a>
 
         <div class="content py-3">
             <div class="card">

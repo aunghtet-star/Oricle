@@ -10,7 +10,7 @@
                         <i class="pe-7s-user icon-gradient bg-mean-fruit">
                         </i>
                     </div>
-                    <div>Add Money</div>
+                    <div>Cash In</div>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                             <label for="">User</label>
                         <select name="user_id" class="form-control add">
                             <option value="">Select User</option>
-                            
+
                             @foreach ($users as $user)
                                 <option value="{{$user->id}}">{{$user->name}} ({{$user->phone}})</option>
                             @endforeach
